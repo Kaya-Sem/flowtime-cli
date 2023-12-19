@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# flowtime.sh
+# Author: Kaya-Sem
+# Version: 1.0
+# Github: https://github.com/Kaya-Sem/flowtime-cli
+
+
+
 
 if [[ "$1" == "" ]]; then
   echo "Syntax error: flowtime.sh [OPTION]" >&2
@@ -47,7 +54,19 @@ calculate_break_time()
     
      echo "Flowtime break: ${hours}h ${minutes}min"
 
+     # Run countdown in the background
+     countdown "$break_time" &
+
+     # Wait for the background process to finish
+     wait 
+
+     # Notify and start flowtime again.
+     echo "Flowtime break is over, resuming in thirty seconds."
+     notify-send "Flowtime Break Over" "flowtime is resuming in 30 seconds."
+
      rm -f "$FLOWTIME_FILE"
+     sleep 30
+     start_flowtime
 
      else
      echo "Error: Flowtime not started. Use 'flowtime start' first."
@@ -69,6 +88,18 @@ start_flowtime ()
   echo "Flowtime started at ${current_hour}. Recording start time." 
 }
 
+countdown ()
+{
+  local duration=$1 
+
+  while (( duration > 0 )); do
+    echo -ne "Break ends in $duration seconds \r"
+    sleep 1 
+    ((duration--))
+  done
+}
+
+
 # -------------
 
 case "$1" in
@@ -78,8 +109,8 @@ case "$1" in
   break) 
     calculate_break_time
   ;;
-time)
-  displayElapsedTime
+  time)
+    displayElapsedTime
   ;;
   stop)
     stop_flowtime
