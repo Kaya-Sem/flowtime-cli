@@ -1,2 +1,2 @@
 # flowtime-cli
-python cli tool to effeficiently implement flowmodoro
+python cli tool to efficiently implement flowmodoro
