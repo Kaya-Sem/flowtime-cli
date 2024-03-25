@@ -1,6 +1,6 @@
 # flowtime-cli
 
-python cli tool to efficiently implement flowmodoro
+> minimal distraction, maximum productivity
 
 #### options
 
@@ -14,7 +14,7 @@ python cli tool to efficiently implement flowmodoro
 
 `break`
 
-#### How it works
+### How it works
 
 flowtime-cli is IO based, which means all data is processed from and to files. Because of this, it does not block your terminal and it works between reboots. If you start a timer, restart your computer, and stop the timer, it will have kept track of the passed time, and your break will still be calculated correctly.
 
