@@ -7,10 +7,11 @@ import click
 import yaml
 
 CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".config")
+HISTORY_FILE_PATH = os.path.join(CONFIG_DIR, "flowtime_history.csv")
 SESSION_FILE_PATH = os.path.join(CONFIG_DIR, "session.yaml")
 
 NEG_RESPONSES = ["no", "n", "N", "nah", "Nah", "Naw", "na"]
-POS_RESPONSES = ["Y", "y", "Yes", "yes", "sure", "yeah", "Yeah"]
+POS_RESPONSES = ["Y", "y", "Yes", "yes", "ya", "Ya", "sure", "yeah", "Yeah"]
 
 
 def delete_session_file():
@@ -22,12 +23,8 @@ def delete_session_file():
 
 
 def check_session_file_existance():
-    home_dir = os.path.expanduser("~")
-    config_dir = os.path.join(home_dir, ".config")
-    session_file_path = os.path.join(config_dir, "session.yaml")
-
-    if os.path.exists(session_file_path):
-        return open(session_file_path, "w")
+    if os.path.exists(SESSION_FILE_PATH):
+        return open(SESSION_FILE_PATH, "w")
 
     # is no session file is found
     return None
@@ -37,11 +34,7 @@ def hi():
     pass
 
 
-def create_history_file(filename="flowtime_history.csv", path=".config"):
-    # Construct the full path to the file
-    home_dir = os.path.expanduser("~")
-    file_path = os.path.join(home_dir, path, filename)
-
+def create_history_file():
     # Define CSV header
     fieldnames = [
         "date",
@@ -54,7 +47,7 @@ def create_history_file(filename="flowtime_history.csv", path=".config"):
     ]
 
     # Write an empty CSV file with header
-    with open(file_path, mode="w", newline="") as file:
+    with open(HISTORY_FILE_PATH, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
 
