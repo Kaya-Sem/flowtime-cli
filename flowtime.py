@@ -56,8 +56,9 @@ def create_history_file(filename="history.csv", path=".config"):
 
 def create_session_file():
     # TODO import local time
-    date = None
-    start_time = None
+    date = datetime.date.today().strftime("%Y-%m-%d")
+    # Format the local time to display only HH:MM
+    start_time = datetime.datetime.now().strftime("%H:%M")
     session_data = {
         "date: date": date,
         "start_time": start_time,
