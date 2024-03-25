@@ -58,13 +58,17 @@ def get_session_file():
         start_time = datetime.datetime.now().strftime("%H:%M")
 
         session_data = {
+            # session data
             "date: date": date,
-            "start_time": start_time,
-            "end_time": None,
-            "focused_time": None,
-            "break_time": None,
-            "#focus_blocks": None,
-            "#breaks": None,
+            "session_start_time": start_time,
+            "session_end_time": None,
+            "total_focused_time": None,
+            "total_break_time": None,
+            "count_focus_blocks": None,
+            "count_breaks": None,
+            # current timer
+            "current_timer_start": None,
+            "current_break_start": None,
         }
 
         with open("session.yaml", "w") as file:
@@ -88,7 +92,7 @@ actions = {
 @click.command()
 @click.argument(
     "action",
-    type=click.Choice(
+    type=click.Choice(  # all possible arguments
         [
             "start",
             "stop",
@@ -102,8 +106,6 @@ actions = {
 )
 def flowtime(action):
     """A minimal distraction, maximum utility flowmodoro timer"""
-
-    click.echo(f"given action: {action}!")
 
     # call functionality based on given argument
     actions[action]
