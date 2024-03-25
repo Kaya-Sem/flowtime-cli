@@ -20,7 +20,8 @@ flowtime-cli is IO based, which means all data is processed from -and to files. 
 
 The script creates a history file, and keeps records of all past sessions in there. This can be used in other apps to be graphed and view statistics.
 
-<div style="background-color: #f7f7f7; border-left: 5px solid #007bff; padding: 10px;">
-    <p>This is a custom-styled quote block.</p>
-    <p>You can adjust the background color, border color, and padding as needed.</p>
-</div>
+###### TODO
+
+- create config in .config
+- save in csv so they can graph it
+- fix session file
