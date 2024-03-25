@@ -1,36 +1,29 @@
-import yaml
-import click
 import csv
-import os
 import datetime
+import os
 
-# TODO
-# create config in .config
-# save in csv so they can graph it
-
-
-@click.command()
-@click.argument(
-    "action",
-    type=click.Choice(["start", "stop", "pause", "break", "session"]),
-    metavar="ACTION",
-    required=True,
-)
-def flowtime(action):
-    """A minimal distraction, maximum utility flowmodoro timer"""
-
-    click.echo(f"given action: {action}!")
-
-    if action == "session":
-        create_session_file()
-    create_history_file()
+import click
+import yaml
 
 
-def start_timer():
+def check_session_file_existance():
+    home_dir = os.path.expanduser("~")
+    config_dir = os.path.join(home_dir, ".config")
+    session_file_path = os.path.join(config_dir, "session.yaml")
+
+    if os.path.exists(session_file_path):
+        return open(session_file_path, "w")
+
+    # is no session file is found
+    return None
+
+
+def hi():
     pass
 
 
-def create_history_file(filename="history.csv", path=".config"):
+# change path back to .config
+def create_history_file(filename="flowtime_history.csv", path=""):
     # Get the home directory
     home_dir = os.path.expanduser("~")
 
@@ -54,23 +47,66 @@ def create_history_file(filename="history.csv", path=".config"):
         writer.writeheader()
 
 
-def create_session_file():
-    # TODO import local time
-    date = datetime.date.today().strftime("%Y-%m-%d")
-    # Format the local time to display only HH:MM
-    start_time = datetime.datetime.now().strftime("%H:%M")
-    session_data = {
-        "date: date": date,
-        "start_time": start_time,
-        "end_time": None,
-        "focused_time": None,
-        "break_time": None,
-        "#focus_blocks": None,
-        "#breaks": None,
-    }
+def get_session_file():
+    # If a session file exists, open it, else, create a new session
+    if check_session_file_existance():
+        pass
+    else:
+        # YYYY-MM-DD
+        # HH:MM
+        date = datetime.date.today().strftime("%Y-%m-%d")
+        start_time = datetime.datetime.now().strftime("%H:%M")
 
-    with open("session.yaml", "w") as file:
-        yaml.dump(session_data, file)
+        session_data = {
+            "date: date": date,
+            "start_time": start_time,
+            "end_time": None,
+            "focused_time": None,
+            "break_time": None,
+            "#focus_blocks": None,
+            "#breaks": None,
+        }
+
+        with open("session.yaml", "w") as file:
+            yaml.dump(session_data, file)
+
+
+def start_timer():
+    pass
+
+
+# functions to be called from given argument
+actions = {
+    "start": start_timer(),
+    "stop": hi(),
+    "pause": hi(),
+    "break": hi(),
+    "session": hi(),
+}
+
+
+@click.command()
+@click.argument(
+    "action",
+    type=click.Choice(
+        [
+            "start",
+            "stop",
+            "pause",
+            "break",
+            "session",
+        ]
+    ),
+    metavar="ACTION",
+    required=True,
+)
+def flowtime(action):
+    """A minimal distraction, maximum utility flowmodoro timer"""
+
+    click.echo(f"given action: {action}!")
+
+    # call functionality based on given argument
+    actions[action]
 
 
 if __name__ == "__main__":
