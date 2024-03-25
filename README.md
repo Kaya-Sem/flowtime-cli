@@ -16,6 +16,11 @@
 
 ### How it works
 
-flowtime-cli is IO based, which means all data is processed from and to files. Because of this, it does not block your terminal and it works between reboots. If you start a timer, restart your computer, and stop the timer, it will have kept track of the passed time, and your break will still be calculated correctly.
+flowtime-cli is IO based, which means all data is processed from -and to files. Because of this, it does not block your terminal and it works between reboots. If you start a timer, restart your computer, and stop the timer, it will have kept track of the passed time, and your break will still be calculated correctly.
 
 The script creates a history file, and keeps records of all past sessions in there. This can be used in other apps to be graphed and view statistics.
+
+<div style="background-color: #f7f7f7; border-left: 5px solid #007bff; padding: 10px;">
+    <p>This is a custom-styled quote block.</p>
+    <p>You can adjust the background color, border color, and padding as needed.</p>
+</div>
