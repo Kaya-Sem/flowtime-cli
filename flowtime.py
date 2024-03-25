@@ -1,6 +1,8 @@
+import yaml
 import click
 import csv
 import os
+import datetime
 
 # TODO
 # create config in .config
@@ -10,15 +12,17 @@ import os
 @click.command()
 @click.argument(
     "action",
-    type=click.Choice(["start", "stop"]),
+    type=click.Choice(["start", "stop", "pause", "break", "session"]),
     metavar="ACTION",
     required=True,
 )
-def flowmodoro(action):
-    """A minimal distraction, maximum utility flowmodoro timer
+def flowtime(action):
+    """A minimal distraction, maximum utility flowmodoro timer"""
 
-    actions: start, stop"""
     click.echo(f"given action: {action}!")
+
+    if action == "session":
+        create_session_file()
     create_history_file()
 
 
@@ -26,7 +30,7 @@ def start_timer():
     pass
 
 
-def create_history_file(filename="flowmodoro_history.csv", path=""):
+def create_history_file(filename="history.csv", path=".config"):
     # Get the home directory
     home_dir = os.path.expanduser("~")
 
@@ -50,5 +54,23 @@ def create_history_file(filename="flowmodoro_history.csv", path=""):
         writer.writeheader()
 
 
+def create_session_file():
+    # TODO import local time
+    date = None
+    start_time = None
+    session_data = {
+        "date: date": date,
+        "start_time": start_time,
+        "end_time": None,
+        "focused_time": None,
+        "break_time": None,
+        "#focus_blocks": None,
+        "#breaks": None,
+    }
+
+    with open("session.yaml", "w") as file:
+        yaml.dump(session_data, file)
+
+
 if __name__ == "__main__":
-    flowmodoro()
+    flowtime()
